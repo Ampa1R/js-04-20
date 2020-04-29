@@ -103,3 +103,9 @@ header {
 	content: "$";
 	margin-left: 5px;
 }
+
+.goods-item:hover {
+	box-shadow: 
+		-12px 0 10px -15px #012250,
+		12px 0 10px -15px #012250;
+}
