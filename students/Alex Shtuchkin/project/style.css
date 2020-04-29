@@ -1,0 +1,38 @@
+body {
+    margin: 0 auto;
+    width: 100%
+}
+header {
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: flex-end;
+}
+.cart-button {
+    background-color: wheat;
+    border: 1px solid black;
+    min-height: 30px;
+    width: 110px;
+    border-radius: 15px;
+    margin: 15px 20px 15px 0;
+}
+.cart-button:hover,
+.goods-item:hover {
+    background-color: #FFFFCC;
+    color: black;
+}
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+    margin: 50px 0 0 0;
+    width: 100%;
+}
+.goods-item {
+    border: 1px solid black;
+    width: 15%
+}
+.goods-item h3 {
+    text-align: center;
+}
+.goods-item p {
+    text-align: center;
+}
