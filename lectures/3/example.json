@@ -1,0 +1,6 @@
+[
+    { "title": "Shirt", "price": 100 },
+    { "title": "Socks", "price": 50 },
+    { "title": "Jacket", "price": 200 },
+    { "title": "Shoes", "price": 300 }
+]
