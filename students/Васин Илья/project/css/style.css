@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+body {
+    background: rgb(52,52,55);
+    background: rgb(225,230,231);
+    background: linear-gradient(246deg, rgba(225,230,231,1) 0%, rgba(250,250,250,1) 0%, rgba(52,52,55,1) 100%, rgba(127,128,126,1) 100%, rgba(52,52,55,1) 100%, rgba(2,0,36,1) 100%, rgba(139,139,143,1) 100%);
+height: 100vh;
+}
+
+header {
+    padding: 10px 7%;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header-price {
+    color: #2e4a62;
+    font-size: 30px;
+}
+
+.cart-button {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(209,209,217);
+    text-shadow: 0 -1px 2px rgba(0,0,0,.2);
+    text-shadow: 0 -1px 2px rgba(0,0,0,.2);
+    padding: .5em 1em;
+    outline: none;
+    border-radius: 3px;
+    text-decoration: none;
+    background: linear-gradient(rgb(110,112,120), rgb(81,81,86)) rgb(110,112,120);
+    box-shadow:
+     0 1px rgba(255,255,255,.2) inset,
+     0 3px 5px rgba(0,1,6,.5),
+     0 0 1px 1px rgba(0,1,6,.2);
+    transition: .2s ease-in-out;
+}
+
+.cart-button:hover {
+    background: linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134);
+}
+
+.cart-button:active {
+    background: linear-gradient(rgb(76,77,82), rgb(56,57,62)) rgb(76,77,82);
+    box-shadow:
+     0 0 1px rgba(0,0,0,.5) inset,
+     0 2px 3px rgba(0,0,0,.5) inset,
+     0 1px 1px rgba(255,255,255,.1);
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+}
+
+.goods-item {
+    width: 209px;
+
+}
+
+.goods-pic {
+    height: 320px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-bottom: 20px;
+    border: 5px outset #2e4a62;
+    border-radius: 27px;
+}
+
+.goods-pic:hover {
+    transform: scale(1.05);
+}
+
+.goods-item:nth-child(1) > .goods-pic {
+    background-image: url('https://st.tsum.com/btrx/i/10/56/48/98//01_1526.jpg?u=1569965233');
+}
+
+.goods-item:nth-child(2) > .goods-pic {
+    background-image: url('https://st.tsum.com/btrx/i/82/50/80/1//01_1526.jpg?u=1551132289');
+}
+
+.goods-item:nth-child(3) > .goods-pic {
+    background-image: url('https://st.tsum.com/btrx/i/10/91/97/45//01_1526.jpg?u=1582928292');
+}
+
+.goods-item:nth-child(4) > .goods-pic {
+    background-image: url('https://st.tsum.com/btrx/i/10/46/54/46//01_1526.jpg?u=1566857000');
+}
+
+h3 {
+    color: #b4b7ba;
+}
+
+p {
+    color: #2e4a62;
+    font-size: 30px;
+}
+
+
