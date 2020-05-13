@@ -1,17 +1,40 @@
+function makeGETRequest(url, callback) {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = () => resolve(callback(xhr.responseText));
+        xhr.onerror = () => reject(xhr.statusText);
+        xhr.send();
+      });
+}
 class Basket {
     constructor() {
-        this.addGoods = [];
-        this.deletedGoods = [];
+        this.cartGoods = [];
     }
-    addToBasket() {} //добавить
-    deleteFromBasket() {} //удалить
-    calcBasket() {} //подсчет
-    isOrder() {} //заказать
+    addToBasket() {
+        let toBasket;
+        list.goods.forEach(function(item){
+          toBasket = {
+            title: item.title,
+            price: item.price,
+          }
+        });
+        this.cartGoods.push (toBasket);
+    } //добавить в корзину
+    deleteFromBasket() {
+        let fromBasket;
+        list.goods.forEach(function(item){
+          fromBasket = {
+            title: item.title,
+            price: item.price,
+          }
+        });
+        this.cartGoods.splice(fromBasket);
+    } //удалить
     render() {} //рендер
-    openBasket() {} //открыть корзину
 }
 class BasketItem {
-    constructor(title, price) {
+    constructor(id, title, price) {
         this.title = title; //название
         this.price = price; //стоимость
     }
@@ -52,7 +75,6 @@ class GoodsList {
         this.goods.forEach((good) => {
             if(good.price !== undefined) {
                 totalPrice += good.price;
-                console.log(good.price);
             }
         });
         let totalGoodsAnswer = "Все товары на сумму $" + totalPrice;
@@ -60,6 +82,7 @@ class GoodsList {
     }
 }
 const list = new GoodsList();
+const cart = new Basket();
 list.fetchGoods();
 list.render();
-list.calcAllGoods(); // для ДЗ2
+list.calcAllGoods();
