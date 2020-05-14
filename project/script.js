@@ -1,30 +1,8 @@
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-const sendRequest = (url) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    resolve(JSON.parse(xhr.responseText));
-                } else {
-                    // console.log('200 !==', xhr.status);
-                    reject(xhr.status);
-                }
-            }
-        }
-
-        xhr.timeout = 15000;
-
-        xhr.ontimeout = () => {
-            console.log('timeout');
-        };
-
-        xhr.open('GET', url, true);
-
-        xhr.send();
-    });
+const sendRequest = async (url) => {
+    const res = await fetch(url);
+    return res.json();
 };
 
 class GoodsItem {
@@ -41,27 +19,43 @@ class GoodsItem {
 class GoodsList {
     constructor() {
         this.goods = [];
+        this.filteredGoods = [];
     }
 
-    fetchGoods(callback) {
-        sendRequest(`${API}/catalogData.json?page=1&sort=price`)
-            .then(data => {
-                this.goods = data;
-                callback()
-            }).catch(err => {
-                console.log('fetchGoods error status:', err);
-            });
+    async fetchGoods() {
+        try {
+            const goods = await sendRequest(`${API}/catalogData.json?page=1&sort=price`);
+            this.goods = goods;
+            this.filteredGoods = goods;
+        } catch (err) {
+            console.log('fetchGoods error status:', err);
+        }
     }
 
     render() {
         let goodsList = '';
-        this.goods.forEach(({ product_name, price }) => {
+        this.filteredGoods.forEach(({ product_name, price }) => {
             const goodItem = new GoodsItem(product_name, price);
             goodsList += goodItem.render();
         });
         document.querySelector('.goods-list').innerHTML = goodsList;
     }
+
+    filterGoods(value) {
+        const regexp = RegExp(value, 'i');
+        this.filteredGoods = this.goods.filter(({ product_name }) => regexp.test(product_name));
+        this.render();
+    }
 }
 
-const list = new GoodsList();
-list.fetchGoods(() => list.render());
+(async () => {
+    const list = new GoodsList();
+    await list.fetchGoods();
+    list.render();
+    
+    const input = document.querySelector('.goods-search');
+    document.querySelector('.search-button').addEventListener('click', () => {
+        const value = input.value;
+        list.filterGoods(value);
+    });
+})();
