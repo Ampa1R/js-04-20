@@ -1,11 +1,51 @@
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+
+const sendRequest = (url) => {
+    return new Promise((resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(JSON.parse(xhr.responseText));
+                } else {
+                    reject(xhr.status);
+                }
+            }
+        };
+
+        xhr.timeout = 15000;
+
+        xhr.ontimeout = () => {
+            console.log('timeout');
+        };
+
+        xhr.open('Get', url, true);
+
+        xhr.send();
+    });
+};
+
 class GoodsItem { 
-    constructor(title, price) {
+    constructor(id, title, price) {
+        this.id = id;
         this.title = title;
         this.price = price;
     }
-    render() {
-        return `<div class ="goods-item"><div class ="goods-pic"></div><h3>${this.title}</h3><p>${this.price}</p></div>`;
+
+    async addToBasket() {
+        await sendRequest(`${API}/addToBasket.json?data=${this.id}`);
     }
+
+    async deleteFromBasket() {
+        await sendRequest(`${API}/deleteFromBasket.json?data=${this.id}`);
+    }
+
+
+    render() {
+        return `<div class ="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
+    }
+
 }
 
 class GoodsList {
@@ -13,47 +53,63 @@ class GoodsList {
         this.goods = [];
     }
 
-    getGoods() {
-        this.goods = [
-            {title: 'Shirt', price: 100},
-            {title: 'Socks', price: 50},
-            {title: 'Jacket', price: 200},
-            {title: 'Shoes', price: 300},
-        ] 
+    async fetchGoods() {
+        await sendRequest(`${API}/catalogData.json?page=1&sort=price`)
+            .then((data) => {
+                this.goods = data;
+            })
+            .catch((err) => {
+                console.log('fetchGoods error status:', err)
+            })
     }
 
-    renderGoodsList() {
-        let list = '';
-        this.goods.forEach(({title, price}) => {
-            const goodItem = new GoodsItem(title, price);
-            list += goodItem.render();
+    render() {
+        let goodslist = '';
+        this.goods.forEach(({id_product, product_name, price}) => {
+            const goodItem = new GoodsItem(id_product, product_name, price);
+            goodslist += goodItem.render();
         });
-        document.querySelector('.goods-list').innerHTML = list;
-    }
-
-    getTotalPrice() {
-        
-        this.totalPrice = 0;
-        this.goods.forEach(({price}) => this.totalPrice +=price);
+        document.querySelector('.goods-list').innerHTML = goodslist;
     }
 
     renderTotalPrice() {
+        this.totalPrice = 0;
+        this.goods.forEach(({price}) => this.totalPrice +=price);
         document.querySelector('.total-price').innerHTML = this.totalPrice;
     }
 }
 
-const goodsList = new GoodsList();
-goodsList.getGoods();
-goodsList.renderGoodsList();
-goodsList.getTotalPrice();
-goodsList.renderTotalPrice();
+class Basket {
+    constructor() {
+        this.goodsC = []
+    }
+//Добавить в корзину
+    addToBasket() {
+        let toBasket;
+        list.goods.forEach(function(item){
+        toBasket = {
+            title: item.title,
+            price: item.price,
+        }
+        });
+        this.goodsC.push (toBasket);
+    } 
+//Удалить
+    deleteFromBasket() {
+        let fromBasket;
+        list.goods.forEach(function(item){
+        fromBasket = {
+            title: item.title,
+            price: item.price,
+        }
+        });
+        this.goodsC.splice(fromBasket);
+    } 
+}
 
-//Другие классы
-/*
-class RemoveFromBasket - удаляет отдельные товары
-class TotalBasket - после клика на товар, он добавляется к корзину
-class Order - сделать заказ
-class Basket - просмотр корзины
+const list = new GoodsList();
+list.fetchGoods().then(() => list.render());
+list.fetchGoods().then(() => list.renderTotalPrice());
 
 
-*/
+
