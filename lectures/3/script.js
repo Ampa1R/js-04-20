@@ -87,14 +87,14 @@
 //     });
 
 
-// AJAX 
+// AJAX
 
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 const sendRequest = (url) => {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
-    
+
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
@@ -105,17 +105,17 @@ const sendRequest = (url) => {
                 }
             }
         }
-        
+
         xhr.timeout = 15000;
-        
+
         xhr.ontimeout = () => {
             console.log('timeout');
         };
-        
+
         xhr.open('GET', url, true);
-        
+
         // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        
+
         xhr.send();
     });
 }
