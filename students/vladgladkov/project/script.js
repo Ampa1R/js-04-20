@@ -12,23 +12,9 @@ button.addEventListener('click', (evt) => {
 	cartContent.classList.toggle('active');
 });
 
-const sendRequest = (url) => {
-	return new Promise((resolve, reject) => {
-	let xhr = new XMLHttpRequest;
-
-	xhr.onreadystatechange = () => {
-		if (xhr.readyState === 4) {
-			if (xhr.status === 200) {
-				resolve(JSON.parse(xhr.responseText));
-			} else {
-				reject(xhr.status);
-			}
-		}
-	}
-
-	xhr.open('GET', url, true);
-	xhr.send();
-	});
+const sendRequest = async (url) => {
+	const res = await fetch(url);
+	return res.json();
 }
 
 class GoodItem {
@@ -43,52 +29,48 @@ class GoodItem {
 }
 
 class GoodsList {
-	constructor() {
+	constructor(basket) {
 		this.goods = [];
+		this.filteredGoods = [];
+		this.basket = basket;
 	}
 
-	fetchGoods(APIMethod) {
-		return new Promise((resolve) =>
-			sendRequest(`${API}${APIMethod}`)
-			.then(goods => {
-				this.goods = goods;
-				resolve(this.goods);
-			})
-			.catch(err => {
-				console.log(`Server status respond: ${err}`);
-			})
-		);
+	async fetchGoods(APIMethod) {
+		try {
+			const goods = await sendRequest(API + APIMethod);
+			this.goods = goods;
+			this.filteredGoods = goods;
+			this.render();
+		} catch (err) {
+			console.log(`Server status respond: ${err}`);
+		}
 	}
 
 	render() {
 		let listHtml = '';
-		this.goods.forEach(({product_name, price}) => {
+		this.filteredGoods.forEach(({product_name, price}) => {
 			const goodItem = new GoodItem(product_name, price);
 			listHtml += goodItem.render();
 		});
 		document.querySelector('.goods-list').innerHTML = listHtml;
 		
-		let goodsItem = document.querySelectorAll('.goods-item');
-		for (let goodItem of goodsItem) {
-			goodItem.addEventListener('click', (evt) => {
-				console.log('click');
-				basket.addToBasket(addBascketAPI)
-				.then(() => {
-					document.querySelector('.popup').classList.add('active');
-					setTimeout(() => {
-						document.querySelector('.popup').classList.remove('active');
-					}, 1500);
-					basket.render();
-				})
-				.catch(() => console.log('Some error'))
-			});
+		// Добавляем обработчик клика всем элементам списка товаров.
+		// Допустим ли такой вариант? Или лучше будет после рендера элементов
+		// передать их в глобальную область видимости и добавлять обработчик там?
+
+		let goodItems = document.querySelectorAll('.goods-item');
+		for (let goodItem of goodItems) {
+			goodItem.addEventListener('click', evt => this.basket.changeBasket(addBascketAPI, 'Товар добавлен в корзину!'));
+				// Вопрос выше возник так как здесь мы используем метод одного класса в методе другого
+				// Насколбко это допустимая практика?
 		}
 	}
 
-	getTotalPrice() {
-		this.totalPrice = 0;
-		this.goods.forEach(({price}) => this.totalPrice += price);
-	}
+	filterGoods(value) {
+		const regexp = RegExp(value, 'i');
+		this.filteredGoods = this.goods.filter(({ product_name }) => regexp.test(product_name));
+		this.render();
+  }
 }
 
 class GoodsCart extends GoodsList {
@@ -102,28 +84,51 @@ class GoodsCart extends GoodsList {
 					<div class="cart-total"><h3>На сумму:</h3><span>${this.goods.amount} Р.</span></div>
 					</div>`
 		cartContent.innerHTML = listHtml;
+
+		let cartItems = document.querySelectorAll('.cart-item .del');
+		for (let cartItem of cartItems) {
+			cartItem.addEventListener('click', evt => this.changeBasket(deleteBasketAPI, 'Товар удален из корзины!'));
+		}
 	}
 
-	 addToBasket(APIMethod) {
-		// Здесь должен быть POST или PATCH запрос к API на добавление товара в корзину в списке на сервере
-		// в методе XMLHttpRequest.send() в реальности должно предаваться что-то типа объекта JSON,
-		// который на серверной части будет записан в список корзины, чтобы потом получить этот список через API?
-		// Так как в ответе нам приходит что-то типа булевого значения с результатами подтверждения выполнения операции
-		// Логичнее написать другой метод для запроса, а не использовать имеющийся sendRequest, который будет отправлять и POST
-		// и к тому же в нем необходимо проверять ответ пришедщй в GET?
-		// Это же относится и к методу для удаления из корзины.
+	async changeBasket(APIMethod, popupMsg) {
+		let success = await sendRequest(API + APIMethod);
+		try {
+			if (success.result) {
+				// Должен еще быть какой-то метод позволяющий изменять состав корзины на сервере, которого нет в тренировочном API
+				this.fetchGoods(getBasketAPI);
+				this.showPopup(popupMsg);
+			} else this.showPopup('Ошибка при выполнении операции.');
+		} catch {
+			this.showPopup('Ошибка сервера, попробуйте позднее.');
+		}
+	}
 
-		return new Promise((resolve, reject) => {
-			sendRequest(`${API}${APIMethod}`)
-			.then (isSuccess => isSuccess.result ? resolve() : reject())
-		});
+	showPopup (popupMsg) {
+		const popup = document.querySelector('.popup');
+		popup.textContent = popupMsg;
+		popup.classList.add('active');
+		setTimeout(() => popup.classList.remove('active'), 1500);
 	}
 }
 
-const list = new GoodsList();
 const basket = new GoodsCart();
+const list = new GoodsList(basket);
 
-list.fetchGoods(getCatalogAPI)
-.then(() => list.render());
-basket.fetchGoods(getBasketAPI)
-.then(() => basket.render());
+list.fetchGoods(getCatalogAPI);
+basket.fetchGoods(getBasketAPI);
+
+const input = document.querySelector('.goods-search');
+document.querySelector('.search-button').addEventListener('click', () => list.filterGoods(input.value));
+
+// (async () => {
+// 	const list = new GoodsList();
+// 	await list.fetchGoods();
+// 	list.render();
+	
+// 	const input = document.querySelector('.goods-search');
+// 	document.querySelector('.search-button').addEventListener('click', () => {
+// 		 const value = input.value;
+// 		 list.filterGoods(value);
+// 	});
+// })();
