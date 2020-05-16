@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Форма обратной связи</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <form action="" class="form">
+      <h2>Форма обратной связи</h2>
+      <label class="label">
+        <input
+          type="text"
+          class="input"
+          placeholder="Введите имя"
+          pattern="[A-Za-zА-Яа-я]{1,32}"
+          required
+        />
+      </label>
+      <label class="label">
+        <input
+          type="email"
+          class="input"
+          placeholder="Введите email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          required
+        />
+      </label>
+      <label class="label">
+        <input
+          type="tel"
+          class="input"
+          placeholder="Телефон в формате 123-456-7890"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          required
+        />
+      </label>
+      <button type="submit" class="button">Отправить</button>
+    </form>
+  </body>
+</html>
