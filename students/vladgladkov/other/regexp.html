@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="regexp.css">
+   <title>RegExp</title>
+</head>
+<body>
+   <div class="container">
+      <label for="regexp-changer">Текст для замены кавычек</label>
+      <textarea id="regexp-changer">RegExr was created by gskinner.com, and is proudly hosted by Media Temple. 'Edit the Expression' & Text to see matches. Roll over matches or the expression for details. PCRE & JavaScript flavors of RegEx are 'Вupported.' V'alidate your expression with Tests mode. The side bar includes a Cheatsheet, full Reference, and Hel'p. You can also Save & Share with the Community, and view pattern's you create or 'favorite' 'i My Patterns'. Explore results 'with the Tools below'. Replace & List output custom results. Details lists capture groups. Explain describes your expression in plain English.</textarea>
+      <button id="change">Заменить</button>
+      <textarea id="regexp-result"></textarea>
+   </div>
+   <div class="container">
+      <label for="name">Ваше имя</label>
+      <input type="text" id="name" placeholder="Имя">
+      <label for="tel">Номер телефона</label>
+      <input type="tel" id="tel" placeholder="+7(000)000-0000">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" placeholder="your_email@email.com">
+      <label for="textarea">Место для текста</label>
+      <textarea id="textarea" placeholder="Сюда вводите что хотите"></textarea>
+      <button id="send">Отправить</button>
+   </div>
+   <div class="popup-errors">
+      <span class="name">Вы ввели неподходящее имя! Имя должно быть указано одним словом без цифр и символов, а также без пробелов в начале и конце.</span>
+      <span class="tel">Вы ввели неподходящий номер телефона! Номер телефона должен быть указан по маске +7(ххх)хх-хххх, без посторонниз символов и пробелов.</span>
+      <span class="email">Вы ввели неподходящий e-mail! E-mail должен содержать только латинские буквы, цифры и символы ".","-","_" и не содержать пробелов.</span>
+   </div>
+   <script src=regexp.js></script>
+</body>
+</html>
