@@ -1,0 +1,83 @@
+body {
+   position: relative;
+   padding: 5vh;
+   display: flex;
+   justify-content: space-between;
+   height: 90vh;
+   font: 14px / 30px "Arial", sans-serif;
+   margin: 0;
+   background-color: honeydew;
+}
+
+.container {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   flex: 1 1;
+   margin: 0 20px;
+}
+
+textarea {
+   flex: 1 1;
+   margin: 0;
+   font: inherit;
+   border: 2px solid green;
+   line-height: 20px;
+   padding: 5px;
+}
+
+input {
+   font: inherit;
+   border: 2px solid green;
+   padding: 5px;
+}
+
+input:focus, textarea:focus {
+   border: 2px solid rgb(9, 0, 128);
+}
+
+button {
+   text-transform: uppercase;
+   padding: 10px;
+   margin: 10px 0;
+   border: 0;
+   background-color: rgb(5, 102, 5);
+   color: white;
+   font-weight: bold;
+   box-shadow: 2px 2px 4px 0 black;
+   border-radius: 5px;
+}
+
+button:hover {
+   background-color: rgb(3, 68, 3);
+}
+
+button:active {
+   background-color: rgba(3, 68, 3, 0.753);
+}
+
+.invalid {
+   border: 2px solid rgb(185, 7, 7);
+   background-color: rgb(248, 145, 145);
+}
+
+.popup-errors {
+   position: absolute;
+   bottom: 12vh;
+   display: flex;
+   justify-content: center;
+   /* width: 97vw; */
+}
+
+span {
+   margin: 0 10px;
+   background-color: rgb(248, 145, 145);
+   width: 250px;
+   text-align: center;
+   border-radius: 5px;
+   display: none;
+}
+
+.active {
+   display: block;
+}
