@@ -51,25 +51,32 @@ class GoodsItem {
 class GoodsList {
     constructor () {
         this.goods = [];
+        this.filteredGoods = [];
     }
 
     async fetchGoods() {
-        await sendRequest(`${API}/catalogData.json?page=1&sort=price`)
-            .then((data) => {
-                this.goods = data;
-            })
-            .catch((err) => {
-                console.log('fetchGoods error status:', err)
-            })
+        try {
+            const goods = await sendRequest(`${API}/catalogData.json?page=1&sort=price`);
+            this.goods = goods;
+            this.filteredGoods = goods;
+        } catch (err) {
+            console.log('fetchGoods error status:', err)
+        }
     }
 
     render() {
         let goodslist = '';
-        this.goods.forEach(({id_product, product_name, price}) => {
+        this.filteredGoods.forEach(({id_product, product_name, price}) => {
             const goodItem = new GoodsItem(id_product, product_name, price);
             goodslist += goodItem.render();
         });
         document.querySelector('.goods-list').innerHTML = goodslist;
+    }
+
+    filterGoods(value) {
+        const regexp = RegExp(value, 'i');
+        this.filteredGoods = this.goods.filter(({product_name}) => regexp.test(product_name));
+        this.render();
     }
 
     renderTotalPrice() {
@@ -107,9 +114,21 @@ class Basket {
     } 
 }
 
-const list = new GoodsList();
-list.fetchGoods().then(() => list.render());
-list.fetchGoods().then(() => list.renderTotalPrice());
+(async () => {
+    const list = new GoodsList();
+    await list.fetchGoods();
+    list.render();
+    list.fetchGoods(); 
+    list.renderTotalPrice();
+    
+    const input = document.querySelector('.goods-search');
+    document.querySelector('.search-button').addEventListener('click', () => {
+        const value = input.value;
+        list.filterGoods(value);
+    });
+})();
+
+
 
 
 
