@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.input,
+.button {
+  padding: 5px;
+  width: 100%;
+  max-width: 100%;
+}
+.input:valid {
+  border-color: green;
+  outline-color: green;
+}
+.input:invalid {
+  border-color: red;
+  outline-color: red;
+}
