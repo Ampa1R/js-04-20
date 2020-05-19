@@ -16,7 +16,7 @@
     <body>
         <div id="app">
             <header>
-                <button class="cart-button" type="button" @click="() => this.isVisibleCart = !this.isVisibleCart">
+                <button class="cart-button" type="button" @click="() => this.isVisibleCart = !isVisibleCart">
                     Корзина
                 </button>
                 <button class="search-button" type="button" @click="filterGoods">Искать</button>
@@ -24,14 +24,14 @@
             </header>
             <main>
                 <div class="goods-list">
-                    <div class="goods-item" v-for="good in filteredGoods" v-if="filteredGoods.length">
+                    <div class="goods-item" v-for="good in filteredGoods">
                         <h3>{{ good.product_name }}</h3>
                         <p>{{ good.price }}</p>
                         <button @click.self="addToCart(good)">
                             {{selectedItems.includes(good) ? 'Удалить' : 'Добавить'}}
                         </button>
                     </div>
-                    <div v-else>Нет данных</div>
+                    <div v-if="!filteredGoods.length">Нет данных</div>
                 </div>
                 <div class="cart" v-if="isVisibleCart">
                     <h2>Корзина</h2>
