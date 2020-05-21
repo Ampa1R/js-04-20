@@ -4,15 +4,45 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>eShop</title>
-        <link rel="stylesheet" href="styles.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
         <script src="script.js" defer></script>
+        <link
+            href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap&subset=cyrillic"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
     </head>
+
     <body>
-        <header>
-            <button class="cart-button" type="button">Корзина</button>
-        </header>
-        <main>
-            <div class="goods-list"></div>
-        </main>
+        <div id="app">
+            <header>
+                <button class="cart-button" type="button" @click="() => this.isVisibleCart = !isVisibleCart">
+                    Корзина
+                </button>
+                <button class="search-button" type="button" @click="filterGoods">Искать</button>
+                <input type="text" class="goods-search" v-model="searchText" />
+            </header>
+            <main>
+                <div class="goods-list">
+                    <div class="goods-item" v-for="good in filteredGoods">
+                        <h3>{{ good.product_name }}</h3>
+                        <p>{{ good.price }}</p>
+                        <button @click.self="addToCart(good)">
+                            {{selectedItems.includes(good) ? 'Удалить' : 'Добавить'}}
+                        </button>
+                    </div>
+                    <div v-if="!filteredGoods.length">Нет данных</div>
+                </div>
+                <div class="cart" v-if="isVisibleCart">
+                    <h2>Корзина</h2>
+                    <div class="cart-list" v-if="selectedItems.length">
+                        <div class="cart-item" v-for="(item, index) in selectedItems">
+                            {{index + 1}} {{item.product_name}}
+                        </div>
+                    </div>
+                    <div v-else>Корзина пустая, выберите товары.</div>
+                </div>
+            </main>
+        </div>
     </body>
 </html>
