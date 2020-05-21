@@ -5,7 +5,9 @@
     outline: none;
     font-family: 'Kodchasan', sans-serif;
 }
-
+#app {
+    position: relative;
+}
 body {
     background: rgb(52,52,55);
     background: rgb(225,230,231);
@@ -29,6 +31,7 @@ header {
     display: inline-block;
     font-size: 20px;
     font-weight: 700;
+    height: 50px;
     color: rgb(209,209,217);
     text-shadow: 0 -1px 2px rgba(0,0,0,.2);
     text-shadow: 0 -1px 2px rgba(0,0,0,.2);
@@ -57,6 +60,8 @@ header {
 }
 
 .goods-list {
+    max-width: 500px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-around;
 }
@@ -66,43 +71,79 @@ header {
 
 }
 
-.goods-pic {
-    height: 320px;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-size: contain;
+.basket {
+    position: absolute;
+    top: 65px;
+    left: 90px;
+    border: 1px solid black;
+    background: rgba(128, 128, 128, 0.3);
+    padding: 20px;
+}
+
+.basket__goods {
     margin-bottom: 20px;
-    border: 5px outset #2e4a62;
-    border-radius: 27px;
+    color: #F0FFFF;
 }
 
-.goods-pic:hover {
-    transform: scale(1.05);
+.basket__title {
+    color: #ffffff;
+    margin-bottom: 10px;
 }
 
-.goods-item:nth-child(1) > .goods-pic {
-    background-image: url('https://st.tsum.com/btrx/i/10/56/48/98//01_1526.jpg?u=1569965233');
+.removeButton {
+    margin-left: 10px;
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+    background: rgb(52,52,55, 0.4);
 }
 
-.goods-item:nth-child(2) > .goods-pic {
-    background-image: url('https://st.tsum.com/btrx/i/82/50/80/1//01_1526.jpg?u=1551132289');
+.removeButton:hover {
+    color: rgb(52,52,55, 0.4);
+    background: rgb(255,255,255, 0.6);
 }
 
-.goods-item:nth-child(3) > .goods-pic {
-    background-image: url('https://st.tsum.com/btrx/i/10/91/97/45//01_1526.jpg?u=1582928292');
+.total-price {
+    font-size: 20px;
+    color: rgb(255,255,255, 0.6);
+    margin-bottom: 20px;
+    color: #2e4a62;
+    font-size: 30px;
 }
 
-.goods-item:nth-child(4) > .goods-pic {
-    background-image: url('https://st.tsum.com/btrx/i/10/46/54/46//01_1526.jpg?u=1566857000');
+.addButton {
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+    background: rgb(52,52,55, 0.4);
 }
 
 h3 {
     color: #b4b7ba;
+    font-size: 30px;
+    margin-bottom: 20px;
 }
 
 p {
     color: #2e4a62;
     font-size: 30px;
+    margin-bottom: 10px;
 }
 
 
