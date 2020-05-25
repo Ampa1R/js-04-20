@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         handleClick() {
-            this.$emit('itemClick', this.item);
+            this.$emit('itemClick', this.item.product_name);
         }
     }
 }

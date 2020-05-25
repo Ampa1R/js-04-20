@@ -1,0 +1,15 @@
+{
+  "name": "7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "server": "node server"
+  },
+  "author": "",
+  "license": "ISC"
+}

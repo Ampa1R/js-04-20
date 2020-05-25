@@ -1,43 +1,36 @@
 <template>
   <div id="app">
-    <Header>
-      <Search
-        :searchText="searchText"
-        @searchTextChange="searchText = $event"
-      />
-      <Cart :items="cartItems" @removeItem="handleRemoveItem" />
-    </Header>
-    <GoodsList :goods="filteredGoods" @itemClick="handleItemClick" />
+    <Header />
+    <GoodsList :goods="filteredGoods" />
   </div>
 </template>
 
 <script>
 import GoodsList from "./components/GoodsList.vue";
 import Header from "./components/Header.vue";
-import Search from "./components/Search.vue";
-import Cart from "./components/Cart.vue";
 
-const API = "http://localhost:3000/api";
+const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 export default {
   name: "App",
   components: {
     GoodsList,
     Header,
-    Search,
-    Cart,
   },
   data() {
     return {
       goods: [],
+      filteredGoods: [],
       searchText: "",
-      cartItems: [],
     };
   },
   async mounted() {
     try {
-      const goods = await this.sendRequest(`${API}/catalog`);
+      const goods = await this.sendRequest(
+        `${API}/catalogData.json?page=1&sort=price`
+      );
       this.goods = goods;
+      this.filteredGoods = goods;
     } catch (err) {
       console.log("fetchGoods error status:", err);
     }
@@ -47,28 +40,14 @@ export default {
       const res = await fetch(url);
       return res.json();
     },
-    handleItemClick(item) {
-      const itemIndex = this.cartItems.findIndex(
-        ({ id_product }) => id_product === item.id_product
-      );
-      if (itemIndex !== -1) {
-        this.cartItems[itemIndex].quantity += 1;
-      } else {
-        this.cartItems.push({ ...item, quantity: 1 });
-      }
-    },
-    handleRemoveItem(id) {
-      this.cartItems = this.cartItems.filter(
-        ({ id_product }) => id_product !== id
-      );
-    },
-  },
-  computed: {
-    filteredGoods() {
+    filterGoods() {
       const regexp = RegExp(this.searchText, "i");
-      return this.goods.filter(({ product_name }) => regexp.test(product_name));
+      this.filteredGoods = this.goods.filter(({ product_name }) =>
+        regexp.test(product_name)
+      );
     },
   },
+  computed: {},
 };
 </script>
 

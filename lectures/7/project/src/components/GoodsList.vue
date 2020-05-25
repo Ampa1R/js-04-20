@@ -1,19 +1,16 @@
 <template>
   <div class="goods-list">
-    <GoodsItem v-for="item in goods" :key="item.product_name" :item="item" @itemClick="$emit('itemClick', $event)" />
-    <GoodsListEmpty v-if="!goods.length" />
+    <GoodsItem v-for="item in goods" :key="item.product_name" :item="item" />
   </div>
 </template>
 
 <script>
 import GoodsItem from "./GoodsItem.vue";
-import GoodsListEmpty from "./GoodsListEmpty.vue";
 
 export default {
   name: "GoodsList",
   components: {
     GoodsItem,
-    GoodsListEmpty,
   },
   props: {
     goods: {

@@ -1,8 +1,9 @@
 <template>
   <header>
-    <button class="cart-button" type="button">Корзина</button>
-    <button class="search-button" type="button">Искать</button>
-    <input type="text" class="goods-search" />
+    <div class="logo">
+      eShop
+    </div>
+    <slot />
   </header>
 </template>
 
@@ -15,9 +16,14 @@ export default {
 <style>
 header {
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: space-between;
   background: #fff;
   padding: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
 }
 </style>
