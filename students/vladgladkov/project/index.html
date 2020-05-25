@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eShop</title>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>eShop</title>
+   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" defer></script>
+   <script src="script.js" defer></script>
+   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
+   <div id="app">
+      <header>
+         <div class="container">
             <div class="header-layout">
-                <form class="search-form">
-                    <input class="goods-search" type="text" placeholder="Введите название товара">
-                    <button class="search-button" type="button">Искать</button>
-                </form>
-                <button class="cart-button" type="button">Корзина</button>
-                <div class="cart-content">
-                    <div class="cart-total-container">
-                        <div class="cart-total"><h3>Всего товаров:</h3><span>0</span></div>
-                        <div class="cart-total"><h3>На сумму:</h3><span>0</span></div>
-                    </div>
-                </div>
+                  <form class="search-form">
+                     <input class="goods-search" type="text" placeholder="Введите название товара" v-model="searchText">
+                     <button class="search-button" type="button">Искать</button>
+                  </form>
+                  <button class="cart-button" type="button" @click="showCart">Корзина</button>
+                  <div class="cart-content" v-bind:class="isVisibleCart ? 'active' : 'hidden'">
+                     <div class="cart-item" v-for="cartGood in cartGoods.contents">
+                        <h3>{{ cartGood.product_name }}</h3>
+                        <span>{{ cartGood.price }}</span>
+                        <div class="del" @click="changeCart('/addToBasket.json', 'Товар удален из корзины!')"></div>
+                     </div>
+                     <div class="cart-total-container">
+                        <div class="cart-total"><h3>Всего товаров:</h3><span>{{ cartGoods.countGoods }}</span></div>
+                        <div class="cart-total"><h3>На сумму:</h3><span>{{ cartGoods.amount }}</span></div>
+                     </div>
+                  </div>
             </div>
-        </div>
-    </header>
-    <main>
-        <div class="container">
-            <div class="goods-list"></div>
+         </div>
+      </header>
+      <main>
+         <div class="container">
+            <div class="goods-list">
+               <div class="goods-item" v-for="good in filterGoods">
+                  <h3>{{ good.product_name }}</h3>
+                  <p>{{ good.price }}</p>
+                  <button class="add-button" @click="changeCart('/addToBasket.json', 'Товар добавлен в корзину!')">В корзину</button>
+               </div>
+               <div class="emptyGoods" v-if="filterGoods == 0"><h3>Товаров соответсвующих критериям поиска нет!</h3></div>
+            </div>
             <span class="popup">Товар добавлен в корзину</span>
-        </div>
-    </main>
+         </div>
+      </main>
+   </div>
 </body>
 </html>

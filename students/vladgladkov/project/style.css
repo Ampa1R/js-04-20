@@ -34,7 +34,6 @@ header {
 }
 
 button {
-	float: right;
 	position: relative;
 	padding: 5px 10px 5px 50px;
 	background-color: #005bff;
@@ -91,6 +90,12 @@ button:active {
 	transform: rotate(45deg);
 }
 
+.add-button {
+	padding: 5px 10px;
+	box-sizing: border-box;
+	width: 164px;
+}
+
 .goods-search {
 	padding: 3px 10px;
 	margin: 0;
@@ -106,11 +111,10 @@ button:active {
 	min-width: 200px;
 	background-color: rgba(203, 201, 206, 0.7);
 	top: 65px;
+	right: 0;
 	border-radius: 4px;
 	box-shadow: 0 0 2px 0 #012250;
 	color: #080459;
-	opacity: 0;
-	visibility: hidden;
 }
 
 .cart-content.active {
@@ -118,6 +122,11 @@ button:active {
 	visibility: visible;
 	top: 60px;
 	transition: all 0.3s ease-in;
+}
+
+.cart-content.hidden {
+	opacity: 0;
+	visibility: hidden;
 }
 
 .cart-item {
