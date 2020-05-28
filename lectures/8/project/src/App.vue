@@ -16,7 +16,6 @@ import GoodsList from "./components/GoodsList.vue";
 import Header from "./components/Header.vue";
 import Search from "./components/Search.vue";
 import Cart from "./components/Cart.vue";
-import eventBus from './EventBus';
 
 const API = "http://localhost:3000/api";
 
@@ -35,59 +34,33 @@ export default {
       cartItems: [],
     };
   },
-  mounted() {
-    this.fetchCatalog();
-    this.fetchCart();
+  async mounted() {
+    try {
+      const goods = await this.sendRequest(`${API}/catalog`);
+      this.goods = goods;
+    } catch (err) {
+      console.log("fetchGoods error status:", err);
+    }
   },
   methods: {
-    async sendRequest(url, options) {
-      const res = await fetch(`${API}${url}`, options);
+    async sendRequest(url) {
+      const res = await fetch(url);
       return res.json();
     },
-    async handleItemClick(item) {
-      eventBus.$emit('item-click', item);
-      try {
-        const cart = await this.sendRequest('/addToCart', {
-          method: 'POST',
-          body: JSON.stringify(item),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-        this.cartItems = cart;
-      } catch (err) {
-        console.log("addToCart error status:", err);
+    handleItemClick(item) {
+      const itemIndex = this.cartItems.findIndex(
+        ({ id_product }) => id_product === item.id_product
+      );
+      if (itemIndex !== -1) {
+        this.cartItems[itemIndex].quantity += 1;
+      } else {
+        this.cartItems.push({ ...item, quantity: 1 });
       }
     },
-    async handleRemoveItem(id) {
-      try {
-        const cart = await this.sendRequest('/removeFromCart', {
-          method: 'DELETE',
-          body: JSON.stringify({ id }),
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-        this.cartItems = cart;
-      } catch (err) {
-        console.log("removeFromCart error status:", err);
-      }
-    },
-    async fetchCatalog() {
-      try {
-        const goods = await this.sendRequest('/catalog');
-        this.goods = goods;
-      } catch (err) {
-        console.log("fetchCatalog error status:", err);
-      }
-    },
-      async fetchCart() {
-      try {
-        const cart = await this.sendRequest('/cart');
-        this.cartItems = cart;
-      } catch (err) {
-        console.log("fetchCart error status:", err);
-      }
+    handleRemoveItem(id) {
+      this.cartItems = this.cartItems.filter(
+        ({ id_product }) => id_product !== id
+      );
     },
   },
   computed: {

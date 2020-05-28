@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import eventBus from '../EventBus';
-
 export default {
   props: {
     items: {
@@ -31,11 +29,6 @@ export default {
     return {
       isVisible: false,
     };
-  },
-  mounted() {
-    eventBus.$on('item-click', (item) => {
-      console.log('item clicked', item);
-    })
   },
 };
 </script>

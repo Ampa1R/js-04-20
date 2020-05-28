@@ -1,0 +1,37 @@
+[
+    {
+        "id_product": 123,
+        "product_name": "Ноутбук",
+        "price": 45600
+    },
+    {
+        "id_product": 456,
+        "product_name": "Мышка",
+        "price": 1000
+    },
+    {
+        "id_product": 122,
+        "product_name": "Монитор",
+        "price": 12000
+    },
+    {
+        "id_product": 133,
+        "product_name": "Стол",
+        "price": 8000
+    },
+    {
+        "id_product": 144,
+        "product_name": "Наушники",
+        "price": 5000
+    },
+    {
+        "id_product": 155,
+        "product_name": "Колонки",
+        "price": 2000
+    },
+    {
+        "id_product": 166,
+        "product_name": "Микрофон",
+        "price": 1600
+    }
+]
