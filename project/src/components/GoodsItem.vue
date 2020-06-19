@@ -1,8 +1,8 @@
 <template>
-    <div class="goods-item">
-        <p>{{ item.product_name }}</p>
-        <p>{{ item.price }}</p>
-        <button @click="handleClick">Добавить в корзину</button>
+    <div class="item">
+        <p>{{item.product_name}}</p>
+        <p>{{item.price}}</p>
+        <button @click="handleClick" class="addButton ">Добавить в корзину</button>
     </div>
 </template>
 
@@ -12,24 +12,30 @@ export default {
     props: {
         item: {
             type: Object,
-            required: true
-        },
+            required: true,
+        }
     },
     methods: {
         handleClick() {
-            this.$emit('itemClick', this.item);
+            this.$emit('itemClick', this.item)
         }
     }
 }
-</script>
+</script> 
 
-<style>
-.goods-item {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  flex-basis: calc(25% - 40px);
-  margin: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
+<style >
+.addButton {
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+    background: rgb(52,52,55, 0.4);
 }
 </style>

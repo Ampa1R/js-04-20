@@ -1,82 +1,95 @@
 <template>
-  <div class="cart-wrapper">
-    <button class="cart-button" type="button" @click="isVisible = !isVisible">
-      Корзина
-    </button>
-    <div v-show="isVisible" class="cart">
-      <div v-for="item in items" :key="item.id_product" class="cart-item">
-        <div class="cart-item-name">{{ item.product_name }}</div>
-        <div class="cart-item-price">{{ item.price }}</div>
-        <div class="cart-item-quantity">Количество: {{ item.quantity }}</div>
-        <div class="cart-item-button" @click="$emit('removeItem', item.id_product)">x</div>
-      </div>
-      <div v-if="!items.length">
-        Корзина пуста
-      </div>
+    <div class="cart-wrapper">
+        <button href="#" class="cart-button" @click="isVisible = !isVisible">Basket</button>
+        <div class="cart" v-show="isVisible">
+            <h2 class="basket__title">Basket:</h2>
+            <div class="basket__goods" v-for="item in items" :key="item.id_product" >
+                <span>{{item.product_name}}: {{item.price}}</span>
+                <button @click.self="$emit('remove', item.id_product)" class="remove-button">Remove</button>
+            </div>
+            <div class="total-price">
+                Total price: {{total}}
+            </div>
+            <div v-if="!items.length">Basket is empty</div>
+        </div>
+        
     </div>
-  </div>
 </template>
 
 <script>
-import eventBus from '../EventBus';
-
 export default {
-  props: {
-    items: {
-      type: Array,
-      required: true,
+    props: {
+        total: {
+            type: Number,
+            required: true,
+        },
+        items: {
+            type: Array,
+            required: true,
+        },
     },
-  },
-  data() {
-    return {
-      isVisible: false,
-    };
-  },
-  mounted() {
-    eventBus.$on('item-click', (item) => {
-      console.log('item clicked', item);
-    })
-  },
-};
+    data() {
+        return {
+            isVisible:false,
+        }
+    },
+}
 </script>
 
 <style>
-.cart-wrapper {
-  position: relative;
+.remove-button {
+    margin-left: 10px;
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 2px solid;
+    border-radius: 1px;
+    transition: 0.2s;
+    background: rgb(52,52,55, 0.4);
 }
 
 .cart {
-  position: absolute;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
-  border-radius: 5px;
-  padding: 10px;
-  width: 400px;
-  right: 0;
-  top: 50px;
-}
-
-.cart-item {
-    padding: 10px 5px;
-    position: relative;
-}
-
-.cart-item:not(:last-child) {
-    margin-bottom: 1px solid #ccc;
-}
-
-.cart-item-name {
-    font-weight: bold;
-}
-
-.cart-item-button {
-    background: #eee;
     position: absolute;
-    top: 5px;
-    right: 5px;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    text-align: center;
+    top: 65px;
+    left: 90px;
+    border: 1px solid black;
+    background: rgba(128, 128, 128, 0.3);
+    padding: 20px;
 }
-</style>
+.basket__goods {
+    margin-bottom: 20px;
+    color: #F0FFFF;
+}
+.basket__title {
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+.removeButton:hover {
+    color: rgb(52,52,55, 0.4);
+    background: rgb(255,255,255, 0.6);
+}
+.total-price {
+    font-size: 20px;
+    color: rgb(255,255,255, 0.6);
+    margin-bottom: 20px;
+    color: #2e4a62;
+    font-size: 30px;
+}
+
+.cart-button:hover {
+    background: linear-gradient(rgb(126,126,134), rgb(70,71,76)) rgb(126,126,134);
+}
+.cart-button:active {
+    background: linear-gradient(rgb(76,77,82), rgb(56,57,62)) rgb(76,77,82);
+    box-shadow:
+     0 0 1px rgba(0,0,0,.5) inset,
+     0 2px 3px rgba(0,0,0,.5) inset,
+     0 1px 1px rgba(255,255,255,.1);
+}
+</style> 
+
