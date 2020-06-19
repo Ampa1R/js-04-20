@@ -1,21 +1,25 @@
 <template>
-  <div class="search">
-    <input type="text" class="goods-search" :value="searchText" @input="$emit('searchTextChange', $event.target.value)" />
-  </div>
+    <div>
+        <input type="text" class="goods-search" 
+        v-model='searchText' valu="searchLine" 
+        @input="$emit('searchTextChange', $event.target.value)">
+        <button class="search-button" type="button" v-on:click='togleClick'>Search</button>
+    </div>
 </template>
 
 <script>
 export default {
+    name: "Search",
     props: {
         searchText: {
             type: String,
             required: true,
-        },
+        }
     },
-    name: 'Search',
+    methods: {
+        togleClick() {
+            this.$emit('filterGoods')
+        }
+    }
 }
-</script>
-
-<style>
-
-</style>
+</script> 

@@ -1,29 +1,34 @@
 <template>
-  <header>
-    <div class="logo">
-      eShop
-    </div>
-    <slot />
-  </header>
+    <header>
+        <div class="logo">
+            eShop
+        </div>
+        <slot/>
+        
+    </header>
 </template>
 
 <script>
+
 export default {
 
-};
+}
 </script>
 
 <style>
 header {
-  display: flex;
-  justify-content: space-between;
-  background: #fff;
-  padding: 20px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px 7%;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.header-price {
+    color: #2e4a62;
+    font-size: 30px;
 }
 
 .logo {
-  font-size: 28px;
-  font-weight: bold;
+    font-size: 28px;
+    font-weight: 700;
 }
-</style>
+</style> 
